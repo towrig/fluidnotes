@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "@dimforge/rapier3d": "^0.13.1",
+    "three": "^0.166.0"
+  },
+  "devDependencies": {
+    "vite": "^5.3.2"
+  },
+  "name": "fluidnotes",
+  "description": "This is a gamified note/todo-list.",
+  "type": "module",
+  "version": "0.1.0",
+  "scripts": {
+    "start": "vite",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "particles",
+    "threejs",
+    "typescript",
+    "vite"
+  ],
+  "author": "Towrig",
+  "license": "MIT"
+}
