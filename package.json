@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@dimforge/rapier3d": "^0.13.1",
+    "cannon-es": "^0.20.0",
     "three": "^0.166.0"
   },
   "devDependencies": {
