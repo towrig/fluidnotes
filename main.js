@@ -16,7 +16,7 @@ const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
 const cube = new THREE.Mesh( geometry, material );
 scene.add( cube );
 */
-camera.position.z = 5;
+camera.position.z = 20;
 
 const world = new CANNON.World({
     gravity: new CANNON.Vec3(0, -9.82, 0), // m/s²
@@ -25,8 +25,7 @@ const world = new CANNON.World({
 //Sphere
 const radius = 1; // m
 const sphereBody = new CANNON.Body({
-    mass: 2, // kg
-    angularDamping: 1,
+    mass: 0.5, // kg
     shape: new CANNON.Sphere(radius),
 })
 sphereBody.position.set(0, 2, 0) // m
@@ -40,16 +39,29 @@ scene.add(sphereMesh)
 const groundBody = new CANNON.Body({
     type: CANNON.Body.STATIC,
     shape: new CANNON.Plane(),
-    position: new CANNON.Vec3(0, -2, 0),
+    position: new CANNON.Vec3(0, -10, 0),
 })
 groundBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0) // make it face up
 world.addBody(groundBody)
+
+document.addEventListener('keydown', (e) => {
+    switch (e.key) {
+        case "ArrowUp":
+            sphereBody.applyLocalForce(new CANNON.Vec3(0, 100, 0));
+            return;
+        case "ArrowLeft":
+            sphereBody.applyLocalForce(new CANNON.Vec3(-100, 0, 0));
+            return;
+        case "ArrowRight":
+            sphereBody.applyLocalForce(new CANNON.Vec3(100, 0, 0));
+            return;
+    }
+})
 
 
 // main loop
 function animate() {
     //do physics
-    //sphereBody.applyForce()
     world.fixedStep();
     sphereMesh.position.copy(sphereBody.position)
     sphereMesh.quaternion.copy(sphereBody.quaternion)
