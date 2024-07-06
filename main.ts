@@ -32,7 +32,7 @@ renderContainer(scene, world);
 //const forceField = createForceField();
 
 //Particles
-const particle_radius = 0.1;
+const particle_radius = 0.2;
 const physicalParticles: CANNON.Body[] = [];
 for (let i = -9; i < 9; i+=0.5) {
     for (let j = -9; j < 9; j+=0.5) {
@@ -53,30 +53,34 @@ const material = new THREE.MeshBasicMaterial({ color: 0x0000ff });
 const particlesMesh = new THREE.InstancedMesh(geometry, material, physicalParticles.length); //create instanced meshes, using the length of physical ones
 scene.add(particlesMesh);
 
-/*
+const targetPoint = new CANNON.Vec3(0, 0, 0)
+
 document.addEventListener('keydown', (e) => {
-    console.log(sphereBody.velocity)
+    console.log({key: e.key});
     switch (e.key) {
-        case "ArrowUp":
-            sphereBody.applyForce(new CANNON.Vec3(0, 100, 0));
-            return;
-        case "ArrowLeft":
-            sphereBody.applyForce(new CANNON.Vec3(-100, 0, 0));
-            return;
-        case "ArrowRight":
-            sphereBody.applyForce(new CANNON.Vec3(100, 0, 0));
-            return;
-        case "Shift":
-            sphereBody.applyForce(new CANNON.Vec3(0, 0, 100));
-            return;
-        case "Control":
-            sphereBody.applyForce(new CANNON.Vec3(0, 0, -100));
+        case "g":
+            physicalParticles.forEach((particle) => {
+                const forceVector = new CANNON.Vec3().copy(targetPoint).vsub(particle.position);
+                const distanceToTarget = Math.abs(forceVector.length());
+                forceVector.normalize();
+                particle.applyForce(forceVector.scale(distanceToTarget * 10));
+            })
             return;
     }
 })
-*/
+
 
 console.log("Particle count:", physicalParticles.length);
+
+const updateParticleLocation = (index: number) => {
+    const particleBody = physicalParticles[index];
+    const dummy = new THREE.Object3D();
+    dummy.position.copy(particleBody.position);
+    dummy.quaternion.copy(particleBody.quaternion);
+    dummy.updateMatrix();
+
+    particlesMesh.setMatrixAt(index, dummy.matrix);
+}
 
 
 // main loop
@@ -86,13 +90,7 @@ function animate() {
     //do physics
     world.fixedStep();
     for (let i = 0; i < physicalParticles.length; i++) {
-        const particleBody = physicalParticles[i];
-        const dummy = new THREE.Object3D();
-        dummy.position.copy(particleBody.position);
-        dummy.quaternion.copy(particleBody.quaternion);
-        dummy.updateMatrix();
-
-        particlesMesh.setMatrixAt(i, dummy.matrix);
+        updateParticleLocation(i);
     }
     particlesMesh.instanceMatrix.needsUpdate = true;
     
