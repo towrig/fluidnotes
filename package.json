@@ -1,26 +1,39 @@
 {
   "dependencies": {
-    "@types/three": "^0.166.0",
-    "cannon-es": "^0.20.0",
-    "stats.js": "^0.17.0",
-    "three": "^0.166.0"
+    "@react-three/fiber": "^8.17.10",
+    "@types/three": "^0.169.0",
+    "@types/react": "18.0.15",
+    "three": "^0.170.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.6.3"
   },
   "devDependencies": {
-    "vite": "^5.3.2"
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.3",
+    "vite": "^5.4.10"
   },
   "name": "fluidnotes",
-  "description": "This is a gamified note/todo-list.",
+  "description": "A gamified note/todo-list.",
   "type": "module",
   "version": "0.1.0",
   "scripts": {
-    "start": "vite",
+    "start": "vite --host",
+    "build": "vite build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "particles",
-    "threejs",
+    "three",
+    "react three fiber",
     "typescript",
     "vite"
+  ],
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
   ],
   "author": "Towrig",
   "license": "MIT"
